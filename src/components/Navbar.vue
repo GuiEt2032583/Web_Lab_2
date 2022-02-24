@@ -25,6 +25,7 @@ import { RouterLink } from 'vue-router';
               </li>
             </ul>
           </div>
+          
         </div>
     </nav>
 </template>
