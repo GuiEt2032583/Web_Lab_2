@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'liste',
+      name: 'home',
       component: () => import('../views/ListeView.vue')
     },
     {

@@ -24,8 +24,7 @@ import { RouterLink } from 'vue-router';
                 <RouterLink to="/produit" class="nav-link">Produit</RouterLink>
               </li>
             </ul>
-          </div>
-          
+          </div>       
         </div>
     </nav>
 </template>
