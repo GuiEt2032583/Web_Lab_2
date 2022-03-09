@@ -1,4 +1,5 @@
-<script setup>
+<script>
+import {RouterLink} from 'vue-router';
 
 export default{
     data() {
@@ -7,16 +8,18 @@ export default{
                 nom: "",
                 prix: 0,
                 qty: 0,
+                fourn: "",
                 desc: ""
             }
         }
+    },
+
+    methods: {
+        save: function() {
+            localStorage.setItem(localStorage.length+1, JSON.stringify(produit));
+        }
     }
-
-
 }
-
-const produit = {nom = "", prix = 0, qty = 0, description = ""}
-
 </script>
 
 <template>
@@ -32,7 +35,7 @@ const produit = {nom = "", prix = 0, qty = 0, description = ""}
         </div>
         <div>
             <h4>Fournisseur</h4>
-            <input type="text" placeholder="Fournisseur">
+            <input type="text" placeholder="Fournisseur" v-model="produit.fourn">
             <div class="product-qty">
                 <h4>Quantité</h4>
                 <div class="quantity">
@@ -44,9 +47,9 @@ const produit = {nom = "", prix = 0, qty = 0, description = ""}
             <h4 class="mb-1">Description</h4>
             <textarea rows="4" cols="50" placeholder="Courte description" v-model="produit.desc"></textarea>
         </div>
-        <button href="#" class="btn btn-primary btn-block btn-lg">Sauvegarder</button>
+        <RouterLink to="/" class="btn btn-primary btn-block btn-lg" @click="save">Sauvegarder</RouterLink>
     </div>
-    <p>{{produit.nom}}, {{produit.prix}}, {{produit.qty}}, {{produit.desc}}</p>
+    <p>{{produit.nom}}, {{produit.prix}}, {{produit.fourn}} ,{{produit.qty}}, {{produit.desc}}</p>
 </template>
 
 <style scoped>
