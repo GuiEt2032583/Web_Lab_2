@@ -35,13 +35,6 @@ requete.onupgradeneeded = function(event){
 		// Ouverture de la transaction
 		var trans = bd.transaction("MonEntrepot", "readwrite");
 		var monEntrepot = trans.objectStore("MonEntrepot");
-		
-		// Ajout
-		monEntrepot.add({
-			cle: 1,
-			data: "bonjour le monde!",
-			autre: true
-		});
 	};
 };
 

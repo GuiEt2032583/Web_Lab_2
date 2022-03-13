@@ -96,7 +96,6 @@ export default{
         </div>
         <RouterLink to="/" class="btn btn-primary btn-block btn-lg" @click="save">Sauvegarder</RouterLink>
     </div>
-    <p>{{produit.nom}}, {{produit.prix}}, {{produit.fourn}} ,{{produit.qty}}, {{produit.desc}}</p>
 </template>
 
 <style scoped>

@@ -43,9 +43,15 @@ export default {
 					resolve(vueObject.bd);
 				};  		
 			});
-		}
+		},
+		getId: function(id, router){
+        	var url = new URL("http://localhost:3000/" + router);
+        	url.searchParams.set('id', id);
+        	url.search = url.searchParams.toString();
+        	var new_url = url.toString();
+			window.location.href = new_url;
+    	},
 	},
-
 
 	mounted() {
 		var vueObject = this;
@@ -57,13 +63,12 @@ export default {
 			var monEntrepot = transaction.objectStore("MonEntrepot");
 			var requete = monEntrepot.getAll();
 			requete.onsuccess = function(event){
-			event.target.result.forEach(produit => vueObject.produits.push(JSON.parse(produit.data)));
-			
-				
-			
-			
-			console.log(vueObject.produits);
-		};
+				event.target.result.forEach(produit =>	{
+ 					var produitObjet = JSON.parse(produit.data)
+ 					produitObjet.cle = produit.cle;
+ 					vueObject.produits.push(produitObjet);
+				});
+			};
 		});
 	}	
 }
@@ -72,7 +77,7 @@ export default {
 <template>
 <div class="container-fluid">
     <div class="row row-produit">
-        <Produit v-for="produit in this.produits" :key="produit.nom" :nom="produit.nom" :prix="produit.prix" :qty="produit.qty" :fourn="produit.fourn" :desc="produit.desc" pic="abc"/>
+        <Produit v-for="produit in this.produits" :key="produit.nom" :nom="produit.nom" :prix="produit.prix" :qty="produit.qty" :fourn="produit.fourn" :desc="produit.desc" pic="abc" :id="produit.cle"/>
     </div>
 </div>
 </template>

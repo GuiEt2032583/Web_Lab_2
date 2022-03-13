@@ -2,12 +2,22 @@
 
 export default {
     props:{
-    nom : String,
-    prix : String,
-    qty : String,
-    fourn: String,
-    desc: String,
-    pic : String    
+        id: Number,
+        nom : String,
+        prix : String,
+        qty : Number,
+        fourn: String,
+        desc: String,
+        pic : String    
+    },
+    methods: {
+        sendId: function(id, router){
+        	var url = new URL("http://localhost:3000/" + router);
+        	url.searchParams.set('id', id);
+        	url.search = url.searchParams.toString();
+        	var new_url = url.toString();
+			window.location.href = new_url;
+    	}
     }
 }
 </script>
@@ -26,8 +36,8 @@ export default {
             <p class="card-text">Description : {{desc}}</p>
         </div>
         <div class="card-footer">
-            <RouterLink to="/modification" class="btn btn-primary">Modifier</RouterLink>
-            <RouterLink to="/produit" class="btn btn-outline-dark">Détails</RouterLink>
+            <RouterLink to="/modification" class="btn btn-primary" @click="sendId(id, 'modification')">Modifier</RouterLink>
+            <RouterLink to="/produit" class="btn btn-outline-dark" @click="sendId(id, 'produit')">Détails</RouterLink>          
         </div>
     </div>
     </div>    
