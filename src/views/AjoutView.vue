@@ -10,14 +10,61 @@ export default{
                 qty: 0,
                 fourn: "",
                 desc: ""
-            }
+            },
+            bd: {
+            }            
         }
     },
+    
+    created() {
+        var vueObject = this;
+		this.openDB().then(function(result){
+			vueObject.bd = result;
+		});
+    }, 
 
     methods: {
-        save: function() {
-            localStorage.setItem(localStorage.length+1, JSON.stringify(produit));
-        }
+        save: function() {   
+            console.log(this.bd);  
+	        var transaction = this.bd.transaction(["MonEntrepot"], "readwrite");
+	        var monEntrepot = transaction.objectStore("MonEntrepot");
+	        monEntrepot.add({
+                data : JSON.stringify(this.produit)
+            });
+        },
+        openDB : function() {
+			var vueObject = this;
+			return new Promise (function(resolve) {
+				var requete = indexedDB.open("MaBD", 1);
+
+				// Créer ou mettre à jour (si le numéro de version change)
+				requete.onupgradeneeded = function(event){
+					vueObject.bd = event.target.result;
+
+					var options = {
+					keyPath: "cle", //nom de la clé primaire
+					autoIncrement: true //true si la clé primaire peut être générée
+					};
+
+					var entrepot = vueObject.bd.createObjectStore("MonEntrepot", options);
+			
+					// Création d'un index, qui permet la recherche
+					entrepot.createIndex("nomIndex", "cle");
+					};
+
+				// Gestion des erreurs d'ouverture
+				requete.onerror = function(event){
+					console.log(event.target.errorCode);
+				};
+
+				// En cas de succès, "bd" contient la connexion
+				requete.onsuccess = function(event){
+					vueObject.bd = event.target.result;
+					console.log(vueObject.bd);
+					resolve(vueObject.bd);
+				};  		
+			});
+		}
     }
 }
 </script>

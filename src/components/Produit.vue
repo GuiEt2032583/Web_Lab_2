@@ -1,9 +1,12 @@
 <script>
+
 export default {
     props:{
     nom : String,
     prix : String,
     qty : String,
+    fourn: String,
+    desc: String,
     pic : String    
     }
 }
@@ -17,8 +20,10 @@ export default {
             <h1 class="card-title">{{nom}}</h1>
         </div>
         <div class="card-body">
-            <p class="card-text">Prix : {{ prix }}</p>
+            <p class="card-text">Prix : {{ prix }} $</p>
             <p class="card-text">Quantité : {{qty}}</p>
+            <p class="card-text">Fournisseur : {{fourn}}</p>
+            <p class="card-text">Description : {{desc}}</p>
         </div>
         <div class="card-footer">
             <RouterLink to="/modification" class="btn btn-primary">Modifier</RouterLink>
