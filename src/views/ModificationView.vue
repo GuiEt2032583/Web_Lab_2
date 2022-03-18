@@ -1,11 +1,12 @@
 <script >
-import { RouterLink, stringifyQuery } from 'vue-router';
+import { RouterLink } from 'vue-router';
 
 export default {
     data() {
         return{
             produit: {},
-            bd: {}
+            bd: {},
+            id: {}
         }
     },
 
@@ -28,7 +29,7 @@ export default {
 			
 					// Création d'un index, qui permet la recherche
 					entrepot.createIndex("nomIndex", "cle");
-					};
+				};
 
 				// Gestion des erreurs d'ouverture
 				requete.onerror = function(event){
@@ -47,8 +48,9 @@ export default {
             var vueObject = this;
             var transaction = this.bd.transaction(["MonEntrepot"], "readwrite");
 	        var monEntrepot = transaction.objectStore("MonEntrepot");
+            console.log(vueObject.id);
 	        monEntrepot.put({
-		        cle: parseInt(vueObject.produit.cle),
+		        cle: vueObject.id,
 		        data: JSON.stringify(vueObject.produit)
 	        });
         }
@@ -61,12 +63,13 @@ export default {
             //Bout de code de https://www.sitepoint.com/get-url-parameters-with-javascript/
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            var id = urlParams.get('id')
+            var id = urlParams.get('id');
+            vueObject.id = parseInt(id);
             
             //va chercher le produit qui correspond à l'id
             var transaction = vueObject.bd.transaction(["MonEntrepot"], "readwrite");
 	        var monEntrepot = transaction.objectStore("MonEntrepot");
-	        var requete = monEntrepot.get(parseInt(id));
+	        var requete = monEntrepot.get(vueObject.id);
 	        requete.onsuccess = function(event){
 		        vueObject.produit = JSON.parse(event.target.result.data);
 	        };  
@@ -97,22 +100,22 @@ export default {
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pl-xl-0 pl-lg-0 pl-md-0 border-left m-b-30">
                                     <div class="product-details">
                                         <div class="border-bottom pb-3 mb-3">
-                                            <h2 class="mb-3"><input type="text" :value="produit.nom"></h2>
-                                            <h3 class="mb-0 text-primary">$<input type="text" :value="produit.prix"></h3>
+                                            <h2 class="mb-3"><input type="text" v-model="produit.nom"></h2>
+                                            <h3 class="mb-0 text-primary">$<input type="text" v-model="produit.prix"></h3>
                                         </div>
                                         <div class="product-size border-bottom">
                                             <h4>Fournisseur</h4>
-                                            <input type="text" :value="produit.fourn">
+                                            <input type="text" v-model="produit.fourn">
                                             <div class="product-qty">
                                                 <h4>Quantité</h4>
                                                 <div class="quantity">
-                                                    <input type="number" :value="produit.qty">
+                                                    <input type="number" v-model="produit.qty">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-description">
                                             <h4 class="mb-1">Description</h4>
-                                            <textarea rows="4" cols="50" :value="produit.desc"></textarea>
+                                            <textarea rows="4" cols="50" v-model="produit.desc"></textarea>
                                             <RouterLink to="/" class="btn btn-primary btn-block btn-lg" @click="save">Sauvegarder</RouterLink>
                                         </div>
                                     </div>
