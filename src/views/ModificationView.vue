@@ -6,7 +6,9 @@ export default {
         return{
             produit: {},
             bd: {},
-            id: {}
+            id: {},
+            img: {},
+            src: {}
         }
     },
 
@@ -53,6 +55,9 @@ export default {
 		        cle: vueObject.id,
 		        data: JSON.stringify(vueObject.produit)
 	        });
+        },
+        saveImage: function(img){
+            this.produit.src = img;
         }
     },
 
@@ -79,55 +84,87 @@ export default {
 </script>
 
 <template>
-    <div class="dashboard-wrapper">
-            <div class="dashboard-ecommerce">
-                <div class="container-fluid dashboard-content ">
-                    
-                    <div class="row">
-                        <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pr-xl-0 pr-lg-0 pr-md-0  m-b-30">
-                                    <div class="product-slider">
-										<img class="d-block" :src="produit.img" alt="First slide">
-                                        <a href="#" class="btn btn-primary btn-block btn-lg">Choisir une image</a>
-                                        <!--
-                                            Pour selectionner l'image, faire un modal qui a un v-model sur sa src
-                                            Champ de texte ou l'utilisateur peut rentrer l'url de l'image, avec le v-model
-                                            L'image va s'update auto une fois l'url rentrée au complet
-                                        -->
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 pl-xl-0 pl-lg-0 pl-md-0 border-left m-b-30">
-                                    <div class="product-details">
-                                        <div class="border-bottom pb-3 mb-3">
-                                            <h2 class="mb-3"><input type="text" v-model="produit.nom"></h2>
-                                            <h3 class="mb-0 text-primary">$<input type="text" v-model="produit.prix"></h3>
-                                        </div>
-                                        <div class="product-size border-bottom">
-                                            <h4>Fournisseur</h4>
-                                            <input type="text" v-model="produit.fourn">
-                                            <div class="product-qty">
-                                                <h4>Quantité</h4>
-                                                <div class="quantity">
-                                                    <input type="number" v-model="produit.qty">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-description">
-                                            <h4 class="mb-1">Description</h4>
-                                            <textarea rows="4" cols="50" v-model="produit.desc"></textarea>
-                                            <RouterLink to="/" class="btn btn-primary btn-block btn-lg" @click="save">Sauvegarder</RouterLink>
-                                        </div>
-                                    </div>
-                                </div>                          
-                            </div>
-                        </div>   
-                    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-xl-6 col-lg-6 col-md-6 half">
+                <img class="d-block image" :src="produit.src" alt="First slide">
+                <a href="#" class="btn btn-primary btn-block btn-lg btn-left-half" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Choisir une image</a>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 half right">
+                <div>
+                    <h4>Nom du produit</h4>
+                    <h2 class="mb-3"><input type="text" v-model="produit.nom"></h2>
                 </div>
+                <div>
+                    <h4>Prix</h4>
+                    <h3 class="mb-3 text-primary">$<input type="text" v-model="produit.prix"></h3>
+                </div>
+                <div>
+                    <h4>Fournisseur</h4>
+                    <input class="mb-3" type="text" v-model="produit.fourn">
+                </div>
+                <div>
+                    <h4>Quantité</h4>      
+                    <input class="mb-3" type="number" v-model="produit.qty">
+                </div>
+                <div>
+                    <h4>Description</h4>
+                    <textarea class="mb-3" rows="4" cols="50" v-model="produit.desc"></textarea>
+                </div>
+                <RouterLink to="/" class="btn btn-primary btn-lg" @click="save">Sauvegarder</RouterLink>
             </div>
         </div>
+        <!--
+            Pour selectionner l'image, faire un modal qui a un v-model sur sa src
+            Champ de texte ou l'utilisateur peut rentrer l'url de l'image, avec le v-model
+            L'image va s'update auto une fois l'url rentrée au complet
+        -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ajouter une image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="modal-perso-body">
+                    <img class="image" :src="img">
+                    <input type="text" v-model="img">                             
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="saveImage(img)">Confirmer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>	
 </template>
 
 <style>
+.product.description{
+    display : flex;
+    justify-content: start;
+    flex-direction: column;
+}
 
+.half, .modal-perso-body{
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items : center;
+}
+
+.right{
+    align-items: flex-start;
+}
+
+.btn-left-half{
+    width: 25%;
+}
 </style>

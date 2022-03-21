@@ -52,4 +52,9 @@ export default {
  .btn {
     margin: 5%;
  }
+
+ .card-img-top{
+     width: 50%;
+     align-self : center;
+ }
 </style>

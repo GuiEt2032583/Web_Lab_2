@@ -92,8 +92,8 @@ export default{
         </div>
         <div>
             <h4 class="mb-1">Description</h4>
-            <textarea rows="4" cols="50" placeholder="Courte description" v-model="produit.desc"></textarea>
-        </div>
+            <textarea rows="4" cols="50" placeholder="Courte description" v-model="produit.desc"></textarea>        
+        </div>  
         <RouterLink to="/" class="btn btn-primary btn-block btn-lg" @click="save">Sauvegarder</RouterLink>
     </div>
 </template>

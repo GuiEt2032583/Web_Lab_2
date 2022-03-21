@@ -77,7 +77,7 @@ export default {
 <template>
 <div class="container-fluid">
     <div class="row row-produit">
-        <Produit v-for="produit in this.produits" :key="produit.nom" :nom="produit.nom" :prix="produit.prix" :qty="produit.qty" :fourn="produit.fourn" :desc="produit.desc" pic="abc" :id="produit.cle"/>
+        <Produit v-for="produit in this.produits" :key="produit.nom" :nom="produit.nom" :prix="produit.prix" :qty="produit.qty" :fourn="produit.fourn" :desc="produit.desc" :pic="produit.src" :id="produit.cle"/>
     </div>
 </div>
 </template>
